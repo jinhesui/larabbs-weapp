@@ -60,12 +60,13 @@ export default class ReplyMixin extends wepy.mixin {
     }
   }
   canDelete(user, reply) {
-      if (!user) {
-        return false
-      }
-
-      return (reply.user_id === user.id)
+    if (!user) {
+      return false
     }
+
+    // 用户未回复发布者 或 有管理内容权限
+    return (reply.user_id === user.id) || this.$parent.can('manage_contents')
+  }
   async onPullDownRefresh() {
     this.noMoreData = false
     this.page = 1
